@@ -41,8 +41,8 @@ if( $_POST['guardar']=="Guardar")
 	$tefectivo=$_POST['totalefectivo'];
 	$tapartado=$_POST['totalapartado'];
 	$ttarjeta=$_POST['totaltarjeta'];
-		
-	$consulta="insert into corte(id_usuarios,b20,b50,b100,b200,b500,b1000,m20,m10,m5,m2,m1,mp5,fondo,total_monedas,total_billetes,ventas,id_sucursal,fecha,total_efectivo,total_apartado,total_tarjeta)values('$usuario','$b20','$b50','$b100','$b200','$b500','$b1000','$m20','$m10','$m5','$m2','$m1','$mp5','$fondo','$totalm','$totalb','$total','$idSuc',now(),'$tefectivo','$tapartado','$ttarjeta')";
+	$fecha=$_POST['fecha'];
+	$consulta="insert into corte(id_usuarios,b20,b50,b100,b200,b500,b1000,m20,m10,m5,m2,m1,mp5,fondo,total_monedas,total_billetes,ventas,id_sucursal,fecha,total_efectivo,total_apartado,total_tarjeta)values('$usuario','$b20','$b50','$b100','$b200','$b500','$b1000','$m20','$m10','$m5','$m2','$m1','$mp5','$fondo','$totalm','$totalb','$total','$idSuc','$fecha','$tefectivo','$tapartado','$ttarjeta')";
 	$resultado = mysql_query($consulta) or die("Error en operacion3: $consulta" . mysql_error());
 	if($sumtotal<$total){
 		$faltante=$total-$sumtotal;
@@ -75,6 +75,10 @@ function sumaM(){
 function sumaP(){
 document.form1.totalb.value=(document.form1.b1000.value*1000*1+document.form1.b500.value*500*1+document.form1.b200.value*200*1+document.form1.b100.value*100*1+document.form1.b50.value*50*1+document.form1.b20.value*20*1)
 }
+     $(function() {
+     $( "#fecha" ).datepicker({ dateFormat: 'yy-mm-dd' });
+     
+       });
 //fin suma de billetes
 </script>
 </head>
@@ -114,7 +118,7 @@ document.form1.totalb.value=(document.form1.b1000.value*1000*1+document.form1.b5
           <li class="divider"></li>
 		  <li><a href="proveedores.php">Proveedores</a></li>
           <li class="divider"></li>
-          <li><a href="principal.php">Administración</a></li>
+          <li><a href="principal.php">Administraciï¿½n</a></li>
          </ul>
         <!--fin lista dropdown-->
 
@@ -223,7 +227,8 @@ document.form1.totalb.value=(document.form1.b1000.value*1000*1+document.form1.b5
 			 <td class="pink darken-4 white-text">Total Billetes</td>
 			 <td class="pink darken-4 white-text">Total Monedas</td>
 			 <td class="pink darken-4 white-text">Fondo</td>
-		   </tr> 
+			 <td class="pink darken-4 white-text">Fecha de corte</td>
+		   </tr>
 			 <?
 		$querytotal = "select COALESCE(sum(total),0) as total from ventas
 JOIN usuarios ON ventas.id_usuarios=usuarios.id_usuarios
@@ -270,6 +275,9 @@ where ventas.fecha>='$fecha 00:00:01' and ventas.fecha<='$fecha 23:59:59' and us
 			 <input name="totalefectivo" type="hidden" id="totalefectivo"  class="validate" value="<? echo $res_efectivo['total']?>"/>
 			  <input name="totalapartado" type="hidden" id="totalapartado"  class="validate" value="<? echo $res_apartado['total']?>"/>
 			  <input name="totaltarjeta" type="hidden" id="totaltarjeta"  class="validate" value="<? echo $res_tarjeta['total']?>"/>
+			 </td>
+			 <td class="input-type">
+		  		<input type="text" name="fecha" id="fecha" class="datepicker" value="<? echo $fecha;?>" readonly>
 			 </td>
            </tr>
          </tbody>
