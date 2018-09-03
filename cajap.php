@@ -572,6 +572,11 @@ window.onload=function() {
     if(!madSelectHover) $(".mad-select-drop").removeClass("show");
   });
 });
+
+function Estilo()
+{
+	$('#fectivo').val('');
+}
 </script>
 </head>
 
@@ -826,7 +831,7 @@ window.onload=function() {
           </div>
 		  <div class="input-field col s6 m6 l6 xl6 offset-l3 offset-xl3 white-text ">
 		   Efectivo:
-	       <input name="efectivo" type="number" id="efectivo"  step="0.01"  onchange="hacer_click()" class="validate" value="0"  required>
+	       <input name="efectivo" type="number" id="efectivo"  step="0.01"  onchange="hacer_click()" class="validate" value="0" onfocus="Estilo()"  required>
           </div>
 		  <div class="input-field col s6 m6 l6 xl6 offset-l3 offset-xl3 white-text ">
 		   Cambio:
