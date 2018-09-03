@@ -64,6 +64,9 @@ if( $_POST['guardar']=="Guardar")
  <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
  <!--Let browser know website is optimized for mobile-->
  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+ <script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
+ <link type="text/css" href="css/smoothness/jquery-ui-1.8.16.custom.css" rel="stylesheet" />	
 <script>
 //suma las monedas
 function sumaM(){
@@ -227,7 +230,13 @@ document.form1.totalb.value=(document.form1.b1000.value*1000*1+document.form1.b5
 			 <td class="pink darken-4 white-text">Total Billetes</td>
 			 <td class="pink darken-4 white-text">Total Monedas</td>
 			 <td class="pink darken-4 white-text">Fondo</td>
+			 <?
+			if($idA==1 or $idA==2){
+			?>
 			 <td class="pink darken-4 white-text">Fecha de corte</td>
+			 <?
+			}
+			 ?>
 		   </tr>
 			 <?
 		$querytotal = "select COALESCE(sum(total),0) as total from ventas
@@ -277,7 +286,7 @@ where ventas.fecha>='$fecha 00:00:01' and ventas.fecha<='$fecha 23:59:59' and us
 			  <input name="totaltarjeta" type="hidden" id="totaltarjeta"  class="validate" value="<? echo $res_tarjeta['total']?>"/>
 			 </td>
 			 <td class="input-type">
-		  		<input type="text" name="fecha" id="fecha" class="datepicker" value="<? echo $fecha;?>" readonly>
+		  		<input type="<?echo ($idA==1 or $idA==2)?"text":"hidden"; ?>" name="fecha" id="fecha" class="datepicker" value="<? echo $fecha;?>" readonly>
 			 </td>
            </tr>
          </tbody>
@@ -320,7 +329,7 @@ where ventas.fecha>='$fecha 00:00:01' and ventas.fecha<='$fecha 23:59:59' and us
    </div><!--fin filas-->
  </div><!--fin contenedor-->
   <!--Import jQuery before materialize.js-->
- <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+ <!-- <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script> -->
  <script type="text/javascript" src="js/materialize.min.js"></script>
  <script type="text/javascript" src="js/materialize.js"></script>
 </body>
