@@ -575,7 +575,7 @@ window.onload=function() {
 
 function Estilo()
 {
-	$('#fectivo').val('');
+	$('#efectivo').val('');
 }
 </script>
 </head>
