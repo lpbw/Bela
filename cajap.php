@@ -577,6 +577,17 @@ function Estilo()
 {
 	$('#efectivo').val('');
 }
+
+function PresionaEnter(e) {
+    if (e.keyCode === 13) {
+        e.preventDefault();
+        //console.log('presiono enter');
+		var cambio = parseFloat($('#efectivo').val())-parseFloat($('#total').val());
+		$('#cambio').val(cambio);
+		$('#venta').focus();
+		return false;
+    }
+}
 </script>
 </head>
 
@@ -831,14 +842,14 @@ function Estilo()
           </div>
 		  <div class="input-field col s6 m6 l6 xl6 offset-l3 offset-xl3 white-text ">
 		   Efectivo:
-	       <input name="efectivo" type="number" id="efectivo"  step="0.01"  onchange="hacer_click()" class="validate" value="0" onfocus="Estilo()"  required>
+	       <input name="efectivo" type="number" id="efectivo"  step="0.01"  onchange="hacer_click()" class="validate" value="0" onfocus="Estilo();" onkeypress="return PresionaEnter(event);"  required>
           </div>
 		  <div class="input-field col s6 m6 l6 xl6 offset-l3 offset-xl3 white-text ">
 		   Cambio:
-	       <input name="cambio" type="number" id="cambio" step="0.01"  class="validate" value="0"            readonly>
+	       <input name="cambio" type="number" id="cambio" step="0.01"  class="validate" value="0"  readonly>
           </div>
 		   <div class="col s8 m8 l8 xl8 offset-l4 offset-xl4 white-text">
-	       <input  class="btn pink darken-4" name="venta" type="submit" onClick="return valida(e);" value="Venta">
+	       <input  class="btn pink darken-4" name="venta" id="venta" type="submit" onClick="return valida(e);" value="Venta">
 		<!--   <input  class="btn pink darken-4" name="imp" type="button" onClick="return imprim();" value="Ticket">-->
 		   <input name="cuantos" type="hidden" id="cuantos" value="0">
           </div>
