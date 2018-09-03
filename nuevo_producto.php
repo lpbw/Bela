@@ -123,7 +123,7 @@ echo"<script>parent.location=\"producto.php\"; parent.cerrarV(); </script>";
        <!--codigo barras-->
         <div class="input-field col s6">
 		  <i class="fa fa-barcode prefix white-text"></i>
-		  <input id="codigo" type="text" name="codigo" class="validate white-text" required />
+		  <input id="codigo" type="text" name="codigo" class="validate white-text" />
 		  <label for="codigo white-text">Codigo de barras</label>
         </div>
       <!--fin codigo barras-->
