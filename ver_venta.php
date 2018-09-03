@@ -123,7 +123,7 @@ $.colorbox({iframe:true,href:"producto_apartado.php?id="+ir,width:"800", height:
           <li class="divider"></li>
 		  <li><a href="proveedores.php">Proveedores</a></li>
           <li class="divider"></li>
-          <li><a href="principal.php">Administración</a></li>
+          <li><a href="principal.php">Administraciï¿½n</a></li>
          </ul>
         <!--fin lista dropdown-->
 
@@ -236,11 +236,13 @@ $.colorbox({iframe:true,href:"producto_apartado.php?id="+ir,width:"800", height:
 				 } 
 				}
 			    
-				
+				$TotalVentas = 0;
 				$query = "select v.total,v.id_ventas,v.fecha,(u.nombre) usuario,(s.nombre) as sucursal from ventas v join usuarios u on v.id_usuarios=u.id_usuarios
 				join sucursales s on u.id_sucursal=s.id_sucursal".$and;
 		$result = mysql_query($query) or print("$query ".mysql_error()."");
-		while($res_marca = mysql_fetch_assoc($result)){
+		while($res_marca = mysql_fetch_assoc($result))
+		{
+			$TotalVentas = $TotalVentas + $res_marca['total'];
 	?>
 		   
            <tr>
@@ -249,14 +251,20 @@ $.colorbox({iframe:true,href:"producto_apartado.php?id="+ir,width:"800", height:
 			 </td>
              <td class="input-type">
 			 <a href="reporte_venta.php?id=<? echo $res_marca['id_ventas']?>&suc=<? echo $res_marca['sucursal']?>&usu=<? echo $res_marca['usuario']?>&tot=<? echo $res_marca['total']?>&f=<? echo $res_marca['fecha']?>" class="iframe3"><? echo $res_marca['usuario']?></a></td>
-             <td class="input-type"><? echo $res_marca['total']?></td>
+             <td class="input-type">$<? echo $res_marca['total']?></td>
              <td class="input-type"><? echo $res_marca['fecha']?></td>
            </tr>
-         </tbody>
-		 <?
+					 <?
 		   }
 		 }
 		 ?>
+					 <tr>
+		 				<td></td>
+					 	<td>Total de ventas</td>
+						 <td>$<?echo $TotalVentas;?></td>
+					 </tr>
+         </tbody>
+		
        </table>
 	 </form> 
 	 </div>
