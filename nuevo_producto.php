@@ -144,15 +144,17 @@ echo"<script>parent.location=\"producto.php\"; parent.cerrarV(); </script>";
 	    <!--inicio select proveedor-->
 	    <div class="input-field col s6">
           <select class="white-text" name="proveedor" id="proveedor" required>
-            <option value="" selected>Selecciona un proveedor</option>
-             <? $query = "CALL proveedor();";
+            <option value="0" selected>Selecciona un proveedor</option>
+						 <? 
+						 		$query = "SELECT * FROM proveedores";
                 $result = mysql_query($query) or print("<option value=\"ERROR\">".mysql_error()."</option>");
-                while($res_proveedor = mysql_fetch_assoc($result)){?>
-		    <option value="<? echo $res_proveedor['id_proveedor']?>"><? echo $res_proveedor['nombre']?></option>
-		     <?
-               }
-             ?>
-			
+								while($res_proveedor = mysql_fetch_assoc($result))
+								{
+							?>
+		   						<option value="<? echo $res_proveedor['id_proveedor']?>"><? echo $res_proveedor['nombres']." ".$res_proveedor['ap_paterno']." ".$res_proveedor['ap_materno']?></option>
+		     			<?
+               	}
+             	?>
           </select>
           <label>Proveedor</label>
          </div>

@@ -1,42 +1,43 @@
 <?
-session_start();
-include "coneccion.php";
-include "checar_sesion_admin.php";
-//include "SimpleImage.php";
+  session_start();
+  include "coneccion.php";
+  include "checar_sesion_admin.php";
 
-$idU=$_SESSION['idU'];
-$idA=$_SESSION['idA'];
-$idSuc=$_SESSION['idSuc'];
-$usuario=$idU;
-$id=$_GET['id'];
+  $idU=$_SESSION['idU'];
+  $idA=$_SESSION['idA'];
+  $idSuc=$_SESSION['idSuc'];
+  $usuario=$idU;
+  $id=$_GET['id'];
 
-$consulta="SELECT * from productos where id_producto='$id'";
-$resultado = mysql_query($consulta) or die("La consulta fallo: $consulta".mysql_error());
-$res=mysql_fetch_assoc($resultado);
+  $ConsultaProductos="SELECT * from productos where id_producto='$id'";
+  $ResultadoProductos = mysql_query($ConsultaProductos) or die("La consulta fallo: $ConsultaProductos".mysql_error());
+  $res=mysql_fetch_assoc($ResultadoProductos);
 
-$ss=0;
-$consulta_p  = "select * from productos where mas=1";
-$resultado_p = mysql_query($consulta_p) or die("La consulta fall&oacute;P1:$consulta_p " . mysql_error());
-while($res_p = mysql_fetch_assoc($resultado_p)){
-$ss++;
-}
-if($ss==10){
-echo"<script>alert('Actualmente ya tiene a diez productos en la lista de los mas vendidos, si desea agregar uno nuevo porfavor descarte uno antes');</script>";
-}
+  $ss=0;
+  $consulta_p  = "select * from productos where mas=1";
+  $resultado_p = mysql_query($consulta_p) or die("La consulta fall&oacute;P1:$consulta_p " . mysql_error());
+  while($res_p = mysql_fetch_assoc($resultado_p))
+  {
+    $ss++;
+  }
+  if($ss==10)
+  {
+    echo"<script>alert('Actualmente ya tiene a diez productos en la lista de los mas vendidos, si desea agregar uno nuevo porfavor descarte uno antes');</script>";
+  }
 ?>
 <!DOCTYPE>
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
-<title>Tienda</title>
- <!--Import Google Icon Font-->
- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
- <link href="css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
- <!--Import materialize.css-->
- <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
- <!--Let browser know website is optimized for mobile-->
- <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-</head>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+    <title>Tienda</title>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  </head>
 
 <!--inicio agregar nuevo producto-->
 <?
@@ -128,24 +129,16 @@ where id_producto='$id'";
 	    <!--inicio select proveedor-->
 	    <div class="input-field col s6">
           <select class="white-text" name="proveedor" id="proveedor" required>
-		   <? $query1 = "select * from productos 
-		                 join proveedores on productos.id_proveedor=proveedores.id_proveedor
-						 where id_producto='$id';";
+              <? 
+                $query1 = "select * FROM proveedores";
                 $result1 = mysql_query($query1) or print("<option value=\"ERROR\">".mysql_error()."</option>");
-                while($res_proveedor1 = mysql_fetch_assoc($result1)){?>
-            <option value="<? echo $res_proveedor1['id_proveedor']?>" selected><? echo $res_proveedor1['nombres']." ".$res_proveedor1['ap_paterno']." ".$res_proveedor1['ap_materno']?></option>
+                while($res_proveedor1 = mysql_fetch_assoc($result1))
+                {
+              ?>
+                  <option value="<? echo $res_proveedor1['id_proveedor']?>" <?echo $res_proveedor1['id_proveedor']==$res['id_proveedor']?"selected":""; ?>><? echo $res_proveedor1['nombres']." ".$res_proveedor1['ap_paterno']." ".$res_proveedor1['ap_materno']?></option>
               <?
-               }
-             ?>
-			 
-			 <? $query = "SELECT * FROM proveedores";
-                $result = mysql_query($query) or print("<option value=\"ERROR\">".mysql_error()."</option>");
-                while($res_proveedor = mysql_fetch_assoc($result)){?>
-		    <option value="<? echo $res_proveedor['id_proveedor']?>"><? echo $res_proveedor['nombre']?></option>
-		     <?
-               }
-             ?>
-			
+                }
+              ?>	
           </select>
           <label>Proveedor</label>
          </div>
