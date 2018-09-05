@@ -138,7 +138,7 @@ where id_producto='$id'";
                }
              ?>
 			 
-			 <? $query = "CALL proveedor();";
+			 <? $query = "SELECT * FROM proveedores";
                 $result = mysql_query($query) or print("<option value=\"ERROR\">".mysql_error()."</option>");
                 while($res_proveedor = mysql_fetch_assoc($result)){?>
 		    <option value="<? echo $res_proveedor['id_proveedor']?>"><? echo $res_proveedor['nombre']?></option>
