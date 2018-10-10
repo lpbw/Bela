@@ -54,14 +54,14 @@ $cantidad=$_POST['cantidad'];
  $pref=$_POST['pref'];
 $mas=$_POST['m'];
 $m=0;
+$Mayoreo = $_POST['mayoreo'];
 
 	if($mas=="on"){
 	  if($ss<10){
 		$m=1;
 		}
 	}               
-                       $consulta="UPDATE productos set id_proveedor='$proveedor',nombre='$nombre',descripcion='$descripcion',precio='$precio',codigo_barras='$codigo',costo='$costo',id_usuarios='$usuario',fecha=now(),mas=$m,pref='$pref' 
-where id_producto='$id'";
+  $consulta="UPDATE productos set id_proveedor='$proveedor',nombre='$nombre',descripcion='$descripcion',precio='$precio',codigo_barras='$codigo',costo='$costo',id_usuarios='$usuario',fecha=now(),mas=$m,pref='$pref',mayoreo=$Mayoreo where id_producto='$id'";
                        $resultado = mysql_query($consulta) or die("La consulta fallo: $consulta".mysql_error());
 					   if(mysql_affected_rows()>0){
 				       echo"<script>alert(\"Producto Actualizado.\");</script>";
@@ -128,6 +128,7 @@ where id_producto='$id'";
 	  
 	    <!--inicio select proveedor-->
 	    <div class="input-field col s6">
+      <i class="fa fa-product-hunt prefix white-text"></i>
           <select class="white-text" name="proveedor" id="proveedor" required>
               <? 
                 $query1 = "select * FROM proveedores";
@@ -143,8 +144,17 @@ where id_producto='$id'";
           <label>Proveedor</label>
          </div>
 		 <!--fin select proveedor-->
-		 		
-	  </div>
+
+       
+       <!-- precio mayoreo	 -->
+       <div class="input-field col s6">
+		      <i class="fa fa-usd prefix white-text"></i>
+            <input id="mayoreo" type="number" name="mayoreo" step="0.01" min="1" class="validate white-text" value="<? echo $res['mayoreo'];?>" required>
+            <label for="mayoreo white-text">Precio Mayoreo</label>
+          </div>
+	      </div>
+       <!---------------------->
+	  
 	  <!--fin campo proveedor-->
 	  
 	  <!--campo tipo producto
@@ -169,6 +179,7 @@ where id_producto='$id'";
         </div>
       </div>
 	  <!--fin campo descripcion-->
+    
 	    <!--mas vendido-->
 		<div class="row">
 	  		<div class="col s2 m2">

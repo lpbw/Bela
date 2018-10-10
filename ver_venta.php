@@ -85,7 +85,22 @@ var ir=document.header.idcliente.value;
 $.colorbox({iframe:true,href:"producto_apartado.php?id="+ir,width:"800", height:"650",transition:"fade", scrolling:true, opacity:0.7});
 	
 }
+// Eliminar venta
+function borrar(id){
+        if(confirm('Deseas eliminar la venta?')){
+            var elem = document.createElement('input');
+            elem.name='IdVenta';
+            elem.value = id;
+            elem.type = 'hidden';
+            $("#form1").append(elem);
+			
+			
+            $("#form1").attr('action','eliminarventa.php');
+            $("#form1").submit();
+        }
+    }
 </script>
+
 </head>
 
 <body class="black">
@@ -197,6 +212,7 @@ $.colorbox({iframe:true,href:"producto_apartado.php?id="+ir,width:"800", height:
              <td class="pink darken-4 white-text">Usuario</td>
              <td class="pink darken-4 white-text">Total</td>
              <td class="pink darken-4 white-text">Fecha</td>
+						 <td class="pink darken-4 white-text"></td>
            </tr>
 		   <?
 		    if( $_POST['buscar']=="Buscar")
@@ -253,6 +269,9 @@ $.colorbox({iframe:true,href:"producto_apartado.php?id="+ir,width:"800", height:
 			 <a href="reporte_venta.php?id=<? echo $res_marca['id_ventas']?>&suc=<? echo $res_marca['sucursal']?>&usu=<? echo $res_marca['usuario']?>&tot=<? echo $res_marca['total']?>&f=<? echo $res_marca['fecha']?>" class="iframe3"><? echo $res_marca['usuario']?></a></td>
              <td class="input-type">$<? echo $res_marca['total']?></td>
              <td class="input-type"><? echo $res_marca['fecha']?></td>
+						 <td><a href="javascript:borrar(<? echo $res_marca['id_ventas']?>);">
+	             <i class="fa fa-trash-o fa-lg"></i></a>
+							</td>
            </tr>
 					 <?
 		   }

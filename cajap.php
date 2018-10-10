@@ -50,10 +50,8 @@ if( $_POST['venta']=="Venta")
 				    $resultado = mysql_query($consulta) or die("Error en operacion1: $consulta " . mysql_error());
 					
 					
-					/*$consulta2  = "update inventario set cantidad=cantidad-$cantidad[$count] 
-					               where id_producto=$a
-								   AND id_sucursal=$idSuc";
-					$resultado2 = mysql_query($consulta2) or die("Error en operacion2:$consulta2 " . mysql_error());*/
+					$consulta2  = "update inventario set cantidad=cantidad-$cantidad[$count] where id_producto=$a AND id_sucursal=$idSuc";
+					$resultado2 = mysql_query($consulta2) or die("Error en operacion2:$consulta2 " . mysql_error());
 					$count++;
 				}
 				echo"<script>alert(\"Compra realizada con Exito!!\");</script>";

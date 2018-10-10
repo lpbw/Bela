@@ -47,14 +47,15 @@ $cantidad=$_POST['cantidad'];
 $pref=$_POST['pref'];
 $mas=$_POST['m'];
 $m=0;
+$Mayoreo = $_POST['mayoreo'];
 
 	if($mas=="on"){
 	  if($ss<10){
 		$m=1;
 		}
 	}
-		$consulta  = "INSERT INTO productos(id_proveedor,nombre,descripcion,precio,codigo_barras,costo,id_usuarios,fecha,mas,pref)
-		              VALUES('$proveedor','$nombre','$descripcion','$precio','$codigo_barras','$costo','$usuario',now(),$m,'$pref')";
+		$consulta  = "INSERT INTO productos(id_proveedor,nombre,descripcion,precio,mayoreo,codigo_barras,costo,id_usuarios,fecha,mas,pref)
+		              VALUES('$proveedor','$nombre','$descripcion','$precio','$Mayoreo','$codigo_barras','$costo','$usuario',now(),$m,'$pref')";
 		$resultado = mysql_query($consulta) or die("La consulta fallo: $consulta".mysql_error());
 		$id=mysql_insert_id();//devuelve el id de lo que se acaba de insertar
 
@@ -168,6 +169,16 @@ echo"<script>parent.location=\"producto.php\"; parent.cerrarV(); </script>";
         </div>
 		<!--fin costo-->
 		
+		 
+       <!-- precio mayoreo	 -->
+       <div class="input-field col s6">
+		      <i class="fa fa-usd prefix white-text"></i>
+            <input id="mayoreo" type="number" name="mayoreo" step="0.01" min="1" class="validate white-text" value="<? echo $res['mayoreo'];?>" required>
+            <label for="mayoreo white-text">Precio Mayoreo</label>
+          </div>
+	   
+       <!---------------------->
+
 	  </div>
 	  <!--fin campo proveedor y costo-->
 	  
