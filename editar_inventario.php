@@ -9,7 +9,9 @@ $idA=$_SESSION['idA'];
 $idSuc=$_SESSION['idSuc'];
 $usuario=$idU;
 $id=$_GET['id'];
-
+$idprov=$_GET['idprov'];
+$idsuc=$_GET['idsuc'];
+$idprod=$_GET['idprod'];
 $consulta="SELECT * from inventario where id_inventario='$id'";
 $resultado = mysql_query($consulta) or die("La consulta fallo: $consulta".mysql_error());
 $res=mysql_fetch_assoc($resultado);
@@ -26,6 +28,11 @@ $res=mysql_fetch_assoc($resultado);
  <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
  <!--Let browser know website is optimized for mobile-->
  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+ <link rel="stylesheet" href="colorbox.css" />
+   
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script src="colorbox/jquery.colorbox-min.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
  <script>
  //funcion para iframe
 $(document).ready(function(){
