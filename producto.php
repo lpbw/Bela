@@ -195,23 +195,31 @@ $idprov=$_POST['proveedor'];
 			<tbody>
 	<?
 	
-	   if($idprov!=0 and $idprod!=0){
-       $producto1=" WHERE pro.id_proveedor=$idprov AND p.id_producto=$idprod";
-	   }else{
-	     if($idprod!=0){
-	      $producto1=" WHERE p.id_producto=$idprod";
-	     }else{
-	       if($idprov!=0){
+		 if($idprov!=0 and $idprod!=0)
+		 {
+			$producto1=" WHERE pro.id_proveedor=$idprov AND p.id_producto=$idprod";
+		 }
+		 else
+		 {
+			if($idprod!=0)
+			{
+	     $producto1=" WHERE p.id_producto=$idprod";
+			}
+			else
+			{
+				if($idprov!=0)
+				{
 	        $producto1=" WHERE pro.id_proveedor=$idprov";
-	       }else{
-		    $producto1=" WHERE pro.id_proveedor=$idprov AND p.id_producto=$idprod";
-	       }
+				}
+				else
+				{
+		    	$producto1=" WHERE p.id_proveedor=0";
+	      }
 	    }
 	   }
 	
 
-	 $query = ("SELECT * FROM productos p
-JOIN proveedores pro ON p.id_proveedor=pro.id_proveedor".$producto1." ORDER BY p.nombre ASC");
+	 $query = "SELECT * FROM productos p LEft JOIN proveedores pro ON p.id_proveedor=pro.id_proveedor".$producto1." ORDER BY p.nombre ASC";
        $result = mysql_query($query) or die("La consulta fall&oacute;P1:$query " . mysql_error());
        while($res_prod = mysql_fetch_assoc($result))
 	   {   
@@ -222,7 +230,7 @@ JOIN proveedores pro ON p.id_proveedor=pro.id_proveedor".$producto1." ORDER BY p
             <td><? echo $res_prod['precio']?></td>
 			<td><? echo $res_prod['descripcion']?></td>
 			 <td><? if($res_prod['foto']!=""){?><img src="images/<? echo $res_prod['foto']; ?>" width="90" height="90" /><? }?></td>
-			 <td><? echo $res_prod['nombres']." ".$res_prod['ap_paterno']." ".$res_prod['ap_materno']?></td>
+			 <td><?echo $res_prod['id_proveedor']==0?"Falta proveedor": $res_prod['nombres']." ".$res_prod['ap_paterno']." ".$res_prod['ap_materno'];?></td>
 			  <td><a href="editar_producto.php?id=<? echo $res_prod['id_producto'];?>"><i class="fa fa-pencil fa-lg"></i></a></td>
 			<td><a href="alta_fotos.php?id=<? echo $res_prod['id_producto']?>" ><i class="fa fa-camera-retro fa-lg"></i></a></td></td>
 	<td><a href="javascript:borrar(<? echo $res_prod['id_producto']?>, '<? echo $res_prod['nombre']?>', '<? echo $res_prod['foto']?>');">
