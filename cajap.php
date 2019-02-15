@@ -45,13 +45,14 @@ if( $_POST['venta']=="Venta")
 				
 				foreach($idproducto as $a)
 				{
-					
-					$consulta  = "insert into detalle_ventas (id_ventas,id_producto,cantidad) values($id_venta,$a, '$cantidad[$count]')";
+					echo "<script>alert('id producto: $a')</script>";
+						$consulta  = "insert into detalle_ventas (id_ventas,id_producto,cantidad) values($id_venta,$a, '$cantidad[$count]')";
 				    $resultado = mysql_query($consulta) or die("Error en operacion1: $consulta " . mysql_error());
 					
 					
 					$consulta2  = "update inventario set cantidad=cantidad-$cantidad[$count] where id_producto=$a AND id_sucursal=$idSuc";
 					$resultado2 = mysql_query($consulta2) or die("Error en operacion2:$consulta2 " . mysql_error());
+					echo "<script>alert('$consulta2')</script>";
 					$count++;
 				}
 				echo"<script>alert(\"Compra realizada con Exito!!\");</script>";
@@ -636,13 +637,13 @@ function PresionaEnter(e) {
     <header>
       <div class="col s12 m12 x12 xl12 cyan darken-4">
 	  <? $ss=0; while($res_p = mysql_fetch_assoc($resultado_p)){$ss++?>
-	  	<div class="col s1 m1 chip white-text pink darken-4 centrar" id="<? echo "pref".$ss; ?>" onClick="insRow2('<? echo $ss;?>')">
+	  	<div class="col s1 m1 chip white-text pink darken-4 centrar" id="<? echo "pref".$ss; ?>" onClick="insRow2('<? echo $res_p['id_producto'];?>')">
 			<? echo $res_p['descripcion'];?>
-			<input type="hidden" id="idpref<? echo $ss; ?>" name="idpref<? echo $ss; ?>" value="<? echo $ss;?>" />
-			<input type="hidden" id="p<? echo $ss; ?>" name="p<? echo $ss;?>" value="<? echo $res_p['precio'];?>" />
-			<input type="hidden" id="m<? echo $ss; ?>" name="m<? echo $ss;?>" value="<? echo $res_p['mayoreo'];?>" />
-			<input type="hidden" id="d<? echo $ss; ?>" name="d<? echo $ss;?>" value="<? echo $res_p['descripcion'];?>" />
-			<input type="hidden" id="n<? echo $ss; ?>" name="n<? echo $ss;?>" value="<? echo $res_p['nombre'];?>" />
+			<input type="hidden" id="idpref<? echo $res_p['id_producto']; ?>" name="idpref<? echo $res_p['id_producto']; ?>" value="<? echo $res_p['id_producto'];?>" />
+			<input type="hidden" id="p<? echo $res_p['id_producto']; ?>" name="p<? echo $res_p['id_producto'];?>" value="<? echo $res_p['precio'];?>" />
+			<input type="hidden" id="m<? echo $res_p['id_producto']; ?>" name="m<? echo $res_p['id_producto'];?>" value="<? echo $res_p['mayoreo'];?>" />
+			<input type="hidden" id="d<? echo $res_p['id_producto']; ?>" name="d<? echo $res_p['id_producto'];?>" value="<? echo $res_p['descripcion'];?>" />
+			<input type="hidden" id="n<? echo $res_p['id_producto']; ?>" name="n<? echo $res_p['id_producto'];?>" value="<? echo $res_p['nombre'];?>" />
 		</div>
 		<? } ?>
 	  </div>
