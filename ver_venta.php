@@ -6,6 +6,7 @@ $idU=$_SESSION['idU'];
 $idA=$_SESSION['idA'];
 $idSuc=$_SESSION['idSuc'];
 $fecha=date('Y-m-d');
+$fecha2=date('Y-m-d');
 $hora=date('H:i:s');
 $usuario=$idU;
 $consulta_suc  = "select * from sucursales where id_sucursal=$idSuc";
@@ -16,15 +17,24 @@ $consulta_us = "select * from usuarios where id_usuarios=$idU";
 $resultado_us = mysql_query($consulta_us) or die("La consulta fall&oacute;P1:$consulta_us " . mysql_error());
 $res_us=mysql_fetch_assoc($resultado_us);
 
-
+if ($_SESSION['usuario']!=0) {
+	$usu = $_SESSION['usuario'];
+}
+if ($_SESSION['sucursal']!=0) {
+	$suc = $_SESSION['sucursal'];
+}
 
 if( $_POST['buscar']=="Buscar")
 {
-	
 	$fecha=$_POST['desde'];
 	$fecha2=$_POST['hasta'];
-	
-			
+	$usu=$_POST['usuario'];
+	$suc=$_POST['sucursal'];
+	/**Guardar filtro en sesion */
+	$_SESSION['fecha1']=$fecha;
+	$_SESSION['fecha2']=$fecha2;
+	$_SESSION['usuario']=$usu;
+	$_SESSION['sucursal']=$suc;			
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -39,7 +49,7 @@ if( $_POST['buscar']=="Buscar")
  <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
  <!--Let browser know website is optimized for mobile-->
  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link href="css/styles.css?template=xeug-03&colorScheme=green&header=headers2&button=buttons1" rel="stylesheet" type="text/css">
+  <!-- <link href="css/styles.css?template=xeug-03&colorScheme=green&header=headers2&button=buttons1" rel="stylesheet" type="text/css"> -->
  <!--Let browser know website is optimized for mobile-->
  <link rel="stylesheet" href="colorbox.css" />
   
@@ -138,32 +148,12 @@ function borrar(id){
           <li class="divider"></li>
 		  <li><a href="proveedores.php">Proveedores</a></li>
           <li class="divider"></li>
-          <li><a href="principal.php">Administraci�n</a></li>
+          <li><a href="principal.php">Administración</a></li>
          </ul>
         <!--fin lista dropdown-->
 
 		 <!--fin menu-->
-		 
-		 <!--menu mobil
-		 <ul id="mobile-demo" class="side-nav cyan lighten-2" >
-		   <ul class="collapsible" data-collapsible="accordion">
-            <li>
-              <div class="collapsible-header"><i class="material-icons">filter_drama</i>First</div>
-              <div class="collapsible-body"><ul>
-			   <li>uno</li>
-			  </ul></div>
-            </li>
-            <li>
-              <div class="collapsible-header"><i class="material-icons">place</i>Second</div>
-              <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-           </li>
-           <li>
-             <div class="collapsible-header"><i class="material-icons">whatshot</i>Third</div>
-             <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-           </li>
-          </ul>
-        </ul>
-        fin menu mobil-->
+	
 		</div>
        </nav>
 	<!--fin navegador-->
@@ -178,13 +168,13 @@ function borrar(id){
              <th>Desde:</th>
 			 <th class="input-field"><input name="desde" type="text" class="datepicker" id="desde" size="10" maxlength="10" readonly value="<? echo"$fecha";?>"/></th>
 			 <th>Hasta:</th>
-			 <th class="input-field"><input name="hasta" type="text" class="datepicker" id="hasta" size="10" maxlength="10" readonly value="<? echo"$fecha";?>"/>	</th>
+			 <th class="input-field"><input name="hasta" type="text" class="datepicker" id="hasta" size="10" maxlength="10" readonly value="<? echo"$fecha2";?>"/>	</th>
 			 <th><select class="white-text" name="usuario" id="usuario" required>
             <option value="0" selected>Usuario</option>
              <? $query = "SELECT * FROM usuarios";
                 $result = mysql_query($query) or print("<option value=\"ERROR\">".mysql_error()."</option>");
                 while($res_suc = mysql_fetch_assoc($result)){?>
-		    <option value="<? echo $res_suc['id_usuarios']?>"><? echo $res_suc['nombre']?></option>
+		    <option value="<? echo $res_suc['id_usuarios']?>" <?echo $_SESSION['usuario']==$res_suc['id_usuarios']?"selected":"";?>><? echo $res_suc['nombre']?></option>
 		     <?
                }
              ?>
@@ -195,12 +185,13 @@ function borrar(id){
              <? $query = "SELECT * FROM sucursales";
                 $result = mysql_query($query) or print("<option value=\"ERROR\">".mysql_error()."</option>");
                 while($res_suc = mysql_fetch_assoc($result)){?>
-		    <option value="<? echo $res_suc['id_sucursal']?>"><? echo $res_suc['nombre']?></option>
+		    <option value="<? echo $res_suc['id_sucursal']?>" <?echo $_SESSION['sucursal']==$res_suc['id_sucursal']?"selected":"";?>><? echo $res_suc['nombre']?></option>
 		     <?
                }
              ?>
 			
-          </select></th>
+					</select></th>
+
 		  <th><input class="btn" type="submit" name="buscar" value="Buscar" id="buscar"></th>
            </tr>
          </thead>
@@ -217,8 +208,9 @@ function borrar(id){
 		   <?
 		    if( $_POST['buscar']=="Buscar")
 			{    
-			   $usu=$_POST['usuario'];
-			   $suc=$_POST['sucursal'];
+			   
+				 
+
 			    if($fecha!="" and $fecha2!="" and $usu!=0 and $suc!=0){
 				 $and=" where v.fecha>='$fecha 00:00:01' and v.fecha<='$fecha2 23:59:59' and v.id_usuarios='$usu' and u.id_sucursal='$suc'";
 				}
@@ -253,8 +245,7 @@ function borrar(id){
 				}
 			    
 				$TotalVentas = 0;
-				$query = "select v.total,v.id_ventas,v.fecha,(u.nombre) usuario,(s.nombre) as sucursal from ventas v join usuarios u on v.id_usuarios=u.id_usuarios
-				join sucursales s on u.id_sucursal=s.id_sucursal".$and;
+				$query = "select v.total,v.id_ventas,DATE_FORMAT(v.fecha,'%Y-%m-%d') AS fecha,(u.nombre) usuario,(s.nombre) as sucursal from ventas v join usuarios u on v.id_usuarios=u.id_usuarios join sucursales s on u.id_sucursal=s.id_sucursal".$and.$where;
 		$result = mysql_query($query) or print("$query ".mysql_error()."");
 		while($res_marca = mysql_fetch_assoc($result))
 		{

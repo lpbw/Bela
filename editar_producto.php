@@ -61,12 +61,14 @@ $Mayoreo = $_POST['mayoreo'];
 		$m=1;
 		}
 	}               
-  $consulta="UPDATE productos set id_proveedor='$proveedor',nombre='$nombre',descripcion='$descripcion',precio='$precio',codigo_barras='$codigo',costo='$costo',id_usuarios='$usuario',fecha=now(),mas=$m,pref='$pref',mayoreo=$Mayoreo where id_producto='$id'";
-                       $resultado = mysql_query($consulta) or die("La consulta fallo: $consulta".mysql_error());
-					   if(mysql_affected_rows()>0){
-				       echo"<script>alert(\"Producto Actualizado.\");</script>";
-                       echo"<script>parent.location=\"producto.php\"; parent.cerrarV(); </script>";
-					   }
+              $consulta="UPDATE productos set id_proveedor='$proveedor',nombre='$nombre',descripcion='$descripcion',precio='$precio',codigo_barras='$codigo',costo='$costo',id_usuarios='$usuario',fecha=now(),mas=$m,pref='$pref',mayoreo=$Mayoreo where id_producto='$id'";
+              $resultado = mysql_query($consulta) or die("La consulta fallo: $consulta".mysql_error());
+					    if(mysql_affected_rows()>0){
+                $_SESSION['idprov1']=$proveedor;
+                $_SESSION['idprod1']=$id;
+				        echo"<script>alert(\"Producto Actualizado.\");</script>";
+                echo"<script>parent.location=\"producto.php\"; parent.cerrarV(); </script>";
+					    }
 	
 }
 ?>

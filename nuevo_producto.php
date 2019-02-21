@@ -54,39 +54,42 @@ $Mayoreo = $_POST['mayoreo'];
 		$m=1;
 		}
 	}
-		$consulta  = "INSERT INTO productos(id_proveedor,nombre,descripcion,precio,mayoreo,codigo_barras,costo,id_usuarios,fecha,mas,pref)
-		              VALUES('$proveedor','$nombre','$descripcion','$precio','$Mayoreo','$codigo_barras','$costo','$usuario',now(),$m,'$pref')";
+
+		/**Agergar producto nuevo a la tabla de productos */
+		$consulta  = "INSERT INTO productos(id_proveedor,nombre,descripcion,precio,mayoreo,codigo_barras,costo,id_usuarios,fecha,mas,pref)VALUES('$proveedor','$nombre','$descripcion','$precio','$Mayoreo','$codigo_barras','$costo','$usuario',now(),$m,'$pref')";
 		$resultado = mysql_query($consulta) or die("La consulta fallo: $consulta".mysql_error());
+		$id=0;
 		$id=mysql_insert_id();//devuelve el id de lo que se acaba de insertar
+		/************************************************ */
 
-	$consulta2  = "select * from sucursales order by id_sucursal";
-	$resultado2 = mysql_query($consulta2) or die("La consulta fallo: $consulta2".mysql_error());
-	while($res2=mysql_fetch_assoc($resultado2)){
-	
-		$consulta3= "INSERT INTO inventario(id_sucursal,id_producto,cantidad,minimo,maximo)
-		              VALUES({$res2['id_sucursal']},'$id','$cantidad',0,0)";
-		$resultado3 = mysql_query($consulta3) or die("La consulta fallo: $consulta3".mysql_error());
+		/**Agregar el producto nuevo en la tabla de inventario */
+		if ($id!=0) {
+			$consulta3= "INSERT INTO inventario(id_sucursal,id_producto,cantidad,minimo,maximo)VALUES('$idSuc','$id','$cantidad',0,0)";
+			$resultado3 = mysql_query($consulta3) or die("La consulta fallo: $consulta3".mysql_error());
+		}
+		/***************************************** */
 		
-	}
-	
-				if ($_FILES["file"]["error"] > 0 )  {
-  						echo "Error: " . $_FILES["file"]["error"] . "<br />";	
-  				}else {	  
- 	 					$allowed_ext = array("jpeg", "jpg", "gif", "png");
-	  					$nom="images/".$id."_".$_FILES["file"]["name"];
-	 					$nom2="".$id."_".$_FILES["file"]["name"];
-      					$image = new SimpleImage();
-      					$image->load($_FILES["file"]["tmp_name"]);
-      					$image->save($nom);	
+		/**actualizar la imagen del producto */
+		if ($_FILES["file"]["error"] > 0 ){
+			echo "Error: " . $_FILES["file"]["error"] . "<br />";
+		}else{
+			$allowed_ext = array("jpeg", "jpg", "gif", "png");
+			$nom="images/".$id."_".$_FILES["file"]["name"];
+			$nom2="".$id."_".$_FILES["file"]["name"];
+			$image = new SimpleImage();
+			$image->load($_FILES["file"]["tmp_name"]);
+			$image->save($nom);	
 
-						$consulta4  = "update productos set foto='$nom2' where id_producto=$id";
-						$resultado = mysql_query($consulta4) or die("Error en operacion: $consulta4" . mysql_error());		
-  				}
+			
+			$consulta4  = "update productos set foto='$nom2' where id_producto=$id";
+			$resultado = mysql_query($consulta4) or die("Error en operacion: $consulta4" . mysql_error());
+		}
+		/*********************************** */
 				
   						
 				
 echo"<script>alert(\"Producto agregado.\");</script>";
-echo"<script>parent.location=\"producto.php\"; parent.cerrarV(); </script>";
+echo"<script>parent.location=\"producto.php?nuevo=1\"; parent.cerrarV(); </script>";
 }
 ?>
 <!--fin agregrar nuevo producto-->

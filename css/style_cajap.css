@@ -1,0 +1,130 @@
+.centrar {
+    text-align: center;
+}
+
+
+
+::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 1px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+* {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    font: 16px/24px Roboto, sans-serif;
+    background: #fafafa;
+}
+
+
+/*
+MAD-SELECT by Roko CB
+*/
+.mad-select .material-icons {
+    vertical-align: middle;
+}
+
+.mad-select {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    /*border-bottom: 1px solid rgba(0,0,0,0.12);*/
+    padding-right: 8px;
+    border: none;
+}
+
+.mad-select ul {
+    list-style: none;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+}
+
+.mad-select li {
+    vertical-align: middle;
+    white-space: nowrap;
+    height: 24px;
+    line-height: 24px;
+    display: none;
+    padding: 8px 16px;
+    margin: 0;
+    box-sizing: initial;
+}
+
+.mad-select>ul:first-of-type {
+    max-width: 120px;
+    /* COMMENT FOR AUTO WIDTH */
+}
+
+.mad-select>ul:first-of-type li.selected {
+    display: inline-block;
+    height: 24px;
+    max-width: calc(100% - 24px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mad-select i.material-icons {
+    opacity: 0.5;
+    margin: 0;
+    padding: 0;
+}
+
+/*jQ*/
+.mad-select ul.mad-select-drop {
+    position: absolute;
+    z-index: 9999;
+    visibility: hidden;
+    opacity: 0;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    top: 0;
+    left: 0;
+    transition: 0.24s;
+    max-height: 0;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.mad-select ul.mad-select-drop.show {
+    visibility: visible;
+    opacity: 1;
+    max-height: 160px;
+    /* COMMENT IF YOU DON?T NEED MAX HEIGHT */
+}
+
+.mad-select ul.mad-select-drop li {
+    display: block;
+    transition: background 0.24s;
+    cursor: pointer;
+}
+
+.mad-select ul.mad-select-drop li.selected {
+    background: rgba(0, 0, 0, 0.07);
+}
+
+.mad-select ul.mad-select-drop li:hover {
+    background: rgba(0, 0, 0, 0.04);
+}

@@ -5,19 +5,35 @@ include "checar_sesion_admin.php";
 $idU=$_SESSION['idU'];
 $idA=$_SESSION['idA'];
 $idSuc=$_SESSION['idSuc'];
+
 $idprov=0;
 $idprod=0;
 $nombrep="Selecciona un Producto";
 
+	/**Cuando se acaba de modificar el producto */
+	if($_SESSION['idprov1']!=0 && $_SESSION['idprod1']!=0)
+	{
+		$idprov = $_SESSION['idprov1'];
+		$idprod = $_SESSION['idprod1'];
+	}
+	/***************************************** */
+if ($idprov==0 && $idprod==0) {
+	$_SESSION['idprov1']=0;
+	$_SESSION['idprod1']=0;
+}
 if( $_POST['proveedor']!=0)
 {	
 $idprod=$_POST['producto'];	
 $idprov=$_POST['proveedor'];
+$_SESSION['idprov1']=$idprov;
+$_SESSION['idprod1']=$idprod;
 }
 if( $_POST['producto']!=0)
 {	
 $idprod=$_POST['producto'];	
 $idprov=$_POST['proveedor'];
+$_SESSION['idprov1']=$idprov;
+$_SESSION['idprod1']=$idprod;
 }
 
 ?>
@@ -101,27 +117,6 @@ $idprov=$_POST['proveedor'];
         <!--fin lista dropdown-->
 
 		 <!--fin menu-->
-		 
-		 <!--menu mobil
-		 <ul id="mobile-demo" class="side-nav cyan lighten-2" >
-		   <ul class="collapsible" data-collapsible="accordion">
-            <li>
-              <div class="collapsible-header"><i class="material-icons">filter_drama</i>First</div>
-              <div class="collapsible-body"><ul>
-			   <li>uno</li>
-			  </ul></div>
-            </li>
-            <li>
-              <div class="collapsible-header"><i class="material-icons">place</i>Second</div>
-              <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-           </li>
-           <li>
-             <div class="collapsible-header"><i class="material-icons">whatshot</i>Third</div>
-             <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-           </li>
-          </ul>
-        </ul>
-        fin menu mobil-->
 		</div>
        </nav>
 	<!--fin navegador-->
@@ -137,7 +132,7 @@ $idprov=$_POST['proveedor'];
              		<? $query = "SELECT * FROM proveedores";
                 	$result = mysql_query($query) or print("<option value=\"ERROR\">".mysql_error()."</option>");
                 	while($res_suc = mysql_fetch_assoc($result)){?>
-		    	<option value="<? echo $res_suc['id_proveedor']?>" <? echo $idprov==$res_suc['id_proveedor']?"selected":""; ?>><? echo $res_suc['nombres']." ".$res_suc['ap_paterno']." ".$res_suc['ap_materno']?></option>
+		    	<option value="<? echo $res_suc['id_proveedor']?>" <? echo $_SESSION['idprov1']==$res_suc['id_proveedor']?"selected":""; ?>><? echo $res_suc['nombres']." ".$res_suc['ap_paterno']." ".$res_suc['ap_materno']?></option>
 		     		<?
                		}
              		?>	
@@ -153,7 +148,7 @@ $idprov=$_POST['proveedor'];
              		<? $query = "SELECT * FROM productos p JOIN proveedores pr ON p.id_proveedor=pr.id_proveedor WHERE p.id_proveedor=$idprov";
                 	$result = mysql_query($query) or print("<option value=\"ERROR\">".mysql_error()."</option>");
                 	while($res_suc = mysql_fetch_assoc($result)){?>
-		    	<option value="<? echo $res_suc['id_producto'];?>"<? echo $idprod==$res_suc['id_producto']?"selected":""; ?>><? echo $res_suc['nombre'];?></option>
+		    	<option value="<? echo $res_suc['id_producto'];?>"<? echo $_SESSION['idprod1']==$res_suc['id_producto']?"selected":""; ?>><? echo $res_suc['nombre'];?></option>
 		     		<?
                		}
              		?>
@@ -194,7 +189,11 @@ $idprov=$_POST['proveedor'];
 			</thead>
 			<tbody>
 	<?
-	
+			if($_SESSION['idprov1']!=0 && $_SESSION['idprod1']!=0)
+			{
+				$idprov = $_SESSION['idprov1'];
+				$idprod = $_SESSION['idprod1'];
+			}
 		 if($idprov!=0 and $idprod!=0)
 		 {
 			$producto1=" WHERE pro.id_proveedor=$idprov AND p.id_producto=$idprod";
