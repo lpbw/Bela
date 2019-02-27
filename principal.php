@@ -28,7 +28,7 @@ $idSuc=$_SESSION['idSuc'];
    
    <div class="s12 m12 l12 xl12 grey lighten-5">
     <header>
-	   <h3 class="center">Administración</h3>
+	   <h3 class="center">Administraciï¿½n</h3>
 	</header>
    </div>
    
@@ -65,6 +65,9 @@ $idSuc=$_SESSION['idSuc'];
 	 </li>
 	 <li class="collection-item dismissable">
 	  <div>Reporte De Ventas<a href="ver_venta.php" class="secondary-content"><i class="fa fa-arrow-right fa-2x"></i></a></div>
+	 </li>
+	 <li class="collection-item dismissable">
+	  <div>Reporte De Ventas Detallado<a href="Reportes/ReporteProductosDetalle.php" class="secondary-content"><i class="fa fa-arrow-right fa-2x"></i></a></div>
 	 </li>
      <li class="collection-item dismissable">
 	  <div>Surtir<a href="surtir.php" class="secondary-content"><i class="fa fa-arrow-right fa-2x"></i></a></div>
