@@ -76,23 +76,27 @@ $.colorbox({iframe:true,href:"editar_inventario.php?id="+id+"&idprov="+idprov+"&
 	    <a class="brand-logo center">Inventario</a>
 		<a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
 		 <ul class="left hide-on-med-and-down">
-		  <li><a href="principal.php"><i class="fa fa-arrow-left fa-2x"></i></a></li>
-		 <? if($idA==1 || $idA==2)
+		  <? if($idA==1 || $idA==2)
 		  {
 		 ?>
+		  <li><a href="principal.php"><i class="fa fa-arrow-left fa-2x"></i></a></li>
+		 <?
+		  }
+		  ?>
           <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Administracion
 		  <i class="material-icons right">arrow_drop_down</i>
 		  </a>
 		  </li>
-		  <?
-		  }
-		  ?>
+		 
           <li><a href="logout.php"><i class="fa fa-sign-out"></i>Salir</a></li>
          </ul>
 		 
 		 <!--lista dropdwon-->
 		 <ul id="dropdown1" class="dropdown-content">
           <li><a href="cajap.php">Caja</a></li>
+					<? if($idA==1 || $idA==2)
+		  {
+		 ?>
 		  <li class="divider"></li>
           <li><a href="producto.php">Productos</a></li>
 		  <li class="divider"></li>
@@ -103,6 +107,9 @@ $.colorbox({iframe:true,href:"editar_inventario.php?id="+id+"&idprov="+idprov+"&
 		   <li><a href="surtir.php">Surtir</a></li>
           <li class="divider"></li>
           <li><a href="principal.php">Administraci�n</a></li>
+					 <?
+		  }
+		  ?>
          </ul>
         <!--fin lista dropdown-->
 
@@ -276,8 +283,14 @@ JOIN proveedores pr ON p.id_proveedor=pr.id_proveedor"
 			<td><? echo $res_prod['minimo']?></td>
 			<td><? echo $res_prod['codigo_barras']?></td>
 			 <td><? if($res_prod['foto']!=""){?><img src="images/<? echo $res_prod['foto']; ?>" width="90" height="90" /><? }?></td>
-			  <td><a href="javascript:abrir2(<? echo $res_prod['id_inventario']?>,<? echo $idprov;?>,<?echo $idsuc;?>,<?echo $idprod;?>)"><i class="fa fa-pencil fa-lg"></i></a></td>
-          </tr>
+			   <? if($idA==1 || $idA==2)
+		  {
+		 ?>
+				<td><a href="javascript:abrir2(<? echo $res_prod['id_inventario']?>,<? echo $idprov;?>,<?echo $idsuc;?>,<?echo $idprod;?>)"><i class="fa fa-pencil fa-lg"></i></a></td>
+				<?
+			}
+				?>
+					</tr>
        
 		 <?
 		   }

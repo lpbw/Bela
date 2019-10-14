@@ -101,28 +101,41 @@
 				{
 			?>
 				<li><a href="principal.php"><i class="fa fa-arrow-left fa-2x"></i></a></li>
+				<?
+				}
+			?>
 						<li><a class="dropdown-button" href="#!" data-activates="dropdown1">Administracion
 				<i class="material-icons right">arrow_drop_down</i>
 				</a>
 				</li>
-				<?
-				}
-				?>
+			
 				<li><a href="corte.php"><i class="fa fa-money"></i>Corte</a></li>
 						<li><a href="logout.php"><i class="fa fa-sign-out"></i>Salir</a></li>
 					</ul>
 			
 			<!--lista dropdwon-->
 			<ul id="dropdown1" class="dropdown-content">
+			<? if($idA==1 || $idA==2)
+				{
+			?>
 						<li><a href="producto.php">Productos</a></li>
 				<li class="divider"></li>
 						<li><a href="usuarios.php">Usuarios</a></li>
 						<li class="divider"></li>
+		<?
+				}
+				?>
 				<li><a href="inventario.php">Inventario</a></li>
+				<? if($idA==1 || $idA==2)
+				{
+			?>
 						<li class="divider"></li>
 				<li><a href="proveedores.php">Proveedores</a></li>
 						<li class="divider"></li>
 						<li><a href="principal.php">Administraci�n</a></li>
+						<?
+				}
+				?>
 					</ul>
 					<!--fin lista dropdown-->
 				</nav>

@@ -9,11 +9,14 @@
     $Buscar=$_GET['buscar'];
     $Desde=$_GET['desde'];
     $Hasta=$_GET['hasta'];
-
+    $producto = $_GET['producto'];
     switch ($Buscar) {
         case 1:
+            if ($producto!=0) {
+                $and = "and dv.id_producto=$producto";
+            }
             $Resultado=0;
-            $ConsultadetalleProductos = "SELECT DATE_FORMAT(v.fecha,'%Y-%m-%d') AS fecha, p.nombre, dv.cantidad, p.id_producto, dv.mayoreo AS mayoreo FROM ventas v INNER JOIN detalle_ventas dv ON v.id_ventas=dv.id_ventas INNER JOIN productos p ON dv.id_producto=p.id_producto WHERE DATE_FORMAT(v.fecha,'%Y-%m-%d') BETWEEN '$Desde' AND '$Hasta' ORDER BY DATE_FORMAT(v.fecha,'%Y-%m-%d')";
+            $ConsultadetalleProductos = "SELECT DATE_FORMAT(v.fecha,'%Y-%m-%d') AS fecha, p.nombre, dv.cantidad, p.id_producto, dv.mayoreo AS mayoreo FROM ventas v INNER JOIN detalle_ventas dv ON v.id_ventas=dv.id_ventas INNER JOIN productos p ON dv.id_producto=p.id_producto WHERE DATE_FORMAT(v.fecha,'%Y-%m-%d') BETWEEN '$Desde' AND '$Hasta' $and ORDER BY DATE_FORMAT(v.fecha,'%Y-%m-%d')";
             $Resultado = mysql_query($ConsultadetalleProductos) or print("Fallo: $ConsultadetalleProductos ".mysql_error());
             if (mysql_num_rows($Resultado)>=1) {
                 while ($Productos = mysql_fetch_assoc($Resultado)) {
@@ -26,7 +29,14 @@
                         $Mayoreo="<i class='fas fa-check-circle'></i>";
                         $Precio =$PrecioProducto['mayoreo'];
                     }
-                    $tr = $tr."<tr><td>".$Productos['fecha']."</td><td>".$Productos['nombre']."</td><td>".$Productos['cantidad']."</td><td>".$Precio."</td><td>".$Mayoreo."</td></tr>";
+                    if ($producto!=0) {
+                        $sumaPrecio = $sumaPrecio+$Precio;
+                        $sumaCantidad = $sumaCantidad+$Productos['cantidad'];
+                        $tr = "<tr><td>--</td><td>".$Productos['nombre']."</td><td>".$sumaCantidad."</td><td>".$sumaPrecio."</td><td>--</td></tr>";
+                    }else {
+                        $tr = $tr."<tr><td>".$Productos['fecha']."</td><td>".$Productos['nombre']."</td><td>".$Productos['cantidad']."</td><td>".$Precio."</td><td>".$Mayoreo."</td></tr>";
+                    }
+                    
                 }
                 echo $tr;
             }else {

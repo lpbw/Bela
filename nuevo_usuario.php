@@ -34,7 +34,7 @@ $tel=$_POST['tel'];
 $correo=$_POST['email'];
 $sucursal=$_POST['sucursal'];
 $tipo=$_POST['tipo'];
-$pass=$_POST['password'];
+$pass=$_POST['pass'];
 $contra = sha1($pass);
 
 
@@ -78,7 +78,7 @@ echo"<script>parent.location=\"usuarios.php\"; parent.cerrarV(); </script>";
 		<div class="input-field col s6">
 		  <i class="fa fa-address-book-o prefix white-text"></i>
           <input id="direccion" type="text" name="direccion"  class="validate white-text" required>
-          <label for="direccion">Dirección</label>
+          <label for="direccion">Direcciï¿½n</label>
         </div>
 	  </div>
 	  <!--fin campo nombre y direccion-->

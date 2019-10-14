@@ -15,6 +15,9 @@ $nombrep="Selecciona un Producto";
 	{
 		$idprov = $_SESSION['idprov1'];
 		$idprod = $_SESSION['idprod1'];
+		if ($_SESSION['idprov1']!=0 && $_SESSION['idprod1']==0) {
+			$idprov = $_SESSION['idprov1'];
+		}
 	}
 	/***************************************** */
 if ($idprov==0 && $idprod==0) {

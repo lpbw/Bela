@@ -28,7 +28,7 @@ $idSuc=$_SESSION['idSuc'];
    
    <div class="s12 m12 l12 xl12 grey lighten-5">
     <header>
-	   <h3 class="center">Administraci�n</h3>
+	   <h3 class="center">Administración</h3>
 	</header>
    </div>
    

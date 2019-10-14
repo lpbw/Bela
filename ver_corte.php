@@ -6,6 +6,7 @@ $idU=$_SESSION['idU'];
 $idA=$_SESSION['idA'];
 $idSuc=$_SESSION['idSuc'];
 $fecha=date('Y-m-d');
+$fecha2=date('Y-m-d');
 $hora=date('H:i:s');
 $usuario=$idU;
 $consulta_suc  = "select * from sucursales where id_sucursal=$idSuc";
@@ -85,6 +86,21 @@ var ir=document.header.idcliente.value;
 $.colorbox({iframe:true,href:"producto_apartado.php?id="+ir,width:"800", height:"650",transition:"fade", scrolling:true, opacity:0.7});
 	
 }
+
+ function Eliminar(id){
+        if(confirm('Deseas eliminar el Corte?')){
+            var elem = document.createElement('input');
+            elem.name='idc';
+            elem.value = id;
+            elem.type = 'hidden';
+            $("#form1").append(elem);
+			
+            $("#form1").attr('action','elimina_corte.php');
+            $("#form1").submit();
+			
+			alert('Corte eliminado');
+        }
+    }
 </script>
 </head>
 
@@ -123,7 +139,7 @@ $.colorbox({iframe:true,href:"producto_apartado.php?id="+ir,width:"800", height:
           <li class="divider"></li>
 		  <li><a href="proveedores.php">Proveedores</a></li>
           <li class="divider"></li>
-          <li><a href="principal.php">Administración</a></li>
+          <li><a href="principal.php">Administraciï¿½n</a></li>
          </ul>
         <!--fin lista dropdown-->
 
@@ -173,7 +189,7 @@ $.colorbox({iframe:true,href:"producto_apartado.php?id="+ir,width:"800", height:
 			 </td>
 			 <td>Hasta:</td>
              <td class="input-field">
-			    <input name="hasta" type="text" class="datepicker" id="hasta" size="10" maxlength="10" readonly value="<? echo"$fecha";?>"/>
+			    <input name="hasta" type="text" class="datepicker" id="hasta" size="10" maxlength="10" readonly value="<? echo"$fecha2";?>"/>
 			 </td>
              <td class="white-text"><select class="white-text" name="sucursal" id="sucursal" required>
             <option value="0" selected>Sucursal</option>
@@ -204,12 +220,12 @@ $.colorbox({iframe:true,href:"producto_apartado.php?id="+ir,width:"800", height:
 			{    
 			   $suc=$_POST['sucursal'];
 			    if($fecha!="" and $fecha2!="" and $suc!=0){
-				 $and=" where c.fecha>='$fecha 00:00:01' and c.fecha<='$fecha2 23:59:59' and c.id_sucursal='$suc'";
+				 $and=" where c.fecha>='$fecha 00:00:00' and c.fecha_fin<='$fecha2 23:59:59' and c.id_sucursal='$suc'";
 				}
 				else
 				{
 				    if($fecha!="" and $fecha2!=""){
-					  $and=" where c.fecha>='$fecha 00:00:01' and c.fecha<='$fecha2 23:59:59'";
+					  $and=" where c.fecha>='$fecha 00:00:00' and c.fecha_fin<='$fecha2 23:59:59'";
 					}
 					else{
 					   if($suc!=0){
@@ -238,6 +254,7 @@ $.colorbox({iframe:true,href:"producto_apartado.php?id="+ir,width:"800", height:
              <td class="input-type"><? echo $res_marca['total_billetes']?></td>
              <td class="input-type"><? echo $res_marca['ventas']?></td>
 			 <td class="input-type"><? echo $res_marca['fecha']?></td>
+			 <td class="input-type"><a style="cursor:pointer;" onclick="Eliminar('<? echo $res_marca['id_corte']?>');">Eliminar</a></td>
            </tr>
          </tbody>
 		 <?

@@ -26,6 +26,7 @@
 		<!--Let browser know website is optimized for mobile-->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	<link rel="stylesheet" href="../colorbox.css" />
+	<link rel="stylesheet" href="../css/style_cajap.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 	<script src="../colorbox/jquery.colorbox-min.js" type="text/javascript"></script>	
 	<script type="text/javascript" src="../js/jquery-ui-1.8.16.custom.min.js"></script>
@@ -40,7 +41,7 @@
 	});
 	function Consulta(){
 		Exportar();
-		var data={buscar:1,desde:$('#desde').val(),hasta:$('#hasta').val()};
+		var data={buscar:1,desde:$('#desde').val(),hasta:$('#hasta').val(),producto:$('#prod').val()};
 		$.ajax({
 			url: 'ConsultasReporteProductoDetalle.php',
 			method: 'post',
@@ -54,7 +55,7 @@
 		});
 	}
 	function Exportar() {
-		$("#exportar").attr("href", "ExportarProductoDetalle.php?desde="+$('#desde').val()+"&hasta="+$('#hasta').val());
+		$("#exportar").attr("href", "ExportarProductoDetalle.php?desde="+$('#desde').val()+"&hasta="+$('#hasta').val()+"&producto="+$('#prod').val());
 	}
 </script>
 </head>
@@ -124,13 +125,27 @@
 		<!-- row buscador -->
 		<div class="row white-text">
 			<div class="col s12 m12 l12 xl12">
-				<div class="col s12 m4 l4 xl4 input-field">
+				<div class="col s12 m3 l3 xl3 input-field">
 					<label for="desde">Desde:</label>
 					<input name="desde" type="text" class="datepicker" id="desde" size="10" maxlength="10" readonly value="<? echo"$fecha";?>"/>
 				</div>
-				<div class="col s12 m4 l4 xl4 input-field">
+				<div class="col s12 m3 l3 xl3  input-field">
 					<label for="hasta">Hasta:</label>
 					<input name="hasta" type="text" class="datepicker" id="hasta" size="10" maxlength="10" readonly value="<? echo"$fecha2";?>"/>
+				</div>
+				<div class="col s12 m2 l2 xl2">
+					<select class="mad-select black white-text" name="prod" id="prod">
+						<option value="0" class="centrar">---- Seleccione Producto -----</option>
+						<?php 
+							$query = "SELECT * FROM productos";
+                			$result = mysql_query($query) or print("<option value=\"ERROR\">".mysql_error()."</option>");
+                			while($res_suc = mysql_fetch_assoc($result)){
+						?>
+		    					<option class="centrar" value="<? echo $res_suc['id_producto'];?>"><? echo $res_suc['nombre'];?></option>
+		     			<?php
+               				}
+             			?>
+					</select>
 				</div>
 				<div class="col s12 m2 l2 xl2">
 					<a class="btn-floating btn-large waves-effect waves-light" onclick="Consulta();" alt="Buscar" title="Buscar"><i class="material-icons">search</i></a>

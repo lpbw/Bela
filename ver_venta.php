@@ -23,18 +23,22 @@ if ($_SESSION['usuario']!=0) {
 if ($_SESSION['sucursal']!=0) {
 	$suc = $_SESSION['sucursal'];
 }
-
+if ($_SESSION['mayoreo']!=0) {
+	$mayoreo = $_SESSION['mayoreo'];
+}
 if( $_POST['buscar']=="Buscar")
 {
 	$fecha=$_POST['desde'];
 	$fecha2=$_POST['hasta'];
 	$usu=$_POST['usuario'];
 	$suc=$_POST['sucursal'];
+	$mayoreo = $_POST['mayoreo'];
 	/**Guardar filtro en sesion */
 	$_SESSION['fecha1']=$fecha;
 	$_SESSION['fecha2']=$fecha2;
 	$_SESSION['usuario']=$usu;
-	$_SESSION['sucursal']=$suc;			
+	$_SESSION['sucursal']=$suc;
+	$_SESSION['mayoreo']=$mayoreo;			
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -180,18 +184,26 @@ function borrar(id){
              ?>
 			
           </select></th>
-		  <th><select class="white-text" name="sucursal" id="sucursal" required>
-            <option value="0" selected>Sucursal</option>
-             <? $query = "SELECT * FROM sucursales";
-                $result = mysql_query($query) or print("<option value=\"ERROR\">".mysql_error()."</option>");
-                while($res_suc = mysql_fetch_assoc($result)){?>
-		    <option value="<? echo $res_suc['id_sucursal']?>" <?echo $_SESSION['sucursal']==$res_suc['id_sucursal']?"selected":"";?>><? echo $res_suc['nombre']?></option>
-		     <?
-               }
-             ?>
+			<th>
+				<select class="white-text" name="sucursal" id="sucursal" required>
+					<option value="0" selected>Sucursal</option>
+					<? $query = "SELECT * FROM sucursales";
+						$result = mysql_query($query) or print("<option value=\"ERROR\">".mysql_error()."</option>");
+						while($res_suc = mysql_fetch_assoc($result)){?>
+					<option value="<? echo $res_suc['id_sucursal']?>" <?echo $_SESSION['sucursal']==$res_suc['id_sucursal']?"selected":"";?>><? echo $res_suc['nombre']?></option>
+					<?
+					}
+					?>
+				</select>
+			</th>
+			<!-- Filtro por mayoreo -->
+			<th>
+				<select class="white-text" name="mayoreo" id="mayoreo" >
+            <option value="0" <?echo $_SESSION['mayoreo']==0?"selected":"";?>>Selecciona</option>
+            <option value="1" <?echo $_SESSION['mayoreo']==1?"selected":"";?>>Mayoreo</option>
+				</select>
+			</th>
 			
-					</select></th>
-
 		  <th><input class="btn" type="submit" name="buscar" value="Buscar" id="buscar"></th>
            </tr>
          </thead>
@@ -243,9 +255,15 @@ function borrar(id){
 				   }	
 				 } 
 				}
+				if ($mayoreo!=0)
+				{
+					$where = " and dv.mayoreo=1";
+				}else {
+					$where = " and dv.mayoreo=0";
+				}
 			    
 				$TotalVentas = 0;
-				$query = "select v.total,v.id_ventas,DATE_FORMAT(v.fecha,'%Y-%m-%d') AS fecha,(u.nombre) usuario,(s.nombre) as sucursal from ventas v join usuarios u on v.id_usuarios=u.id_usuarios join sucursales s on u.id_sucursal=s.id_sucursal".$and.$where;
+				$query = "select v.total,v.id_ventas,DATE_FORMAT(v.fecha,'%Y-%m-%d') AS fecha,(u.nombre) usuario,(s.nombre) as sucursal,dv.mayoreo from ventas v join usuarios u on v.id_usuarios=u.id_usuarios join sucursales s on u.id_sucursal=s.id_sucursal JOIN detalle_ventas dv ON v.id_ventas=dv.id_ventas".$and.$where;
 		$result = mysql_query($query) or print("$query ".mysql_error()."");
 		while($res_marca = mysql_fetch_assoc($result))
 		{
